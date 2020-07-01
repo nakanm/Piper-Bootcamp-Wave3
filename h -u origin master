@@ -1,0 +1,42 @@
+[33mcommit 85e2f33fc8bcafd3b2601acc014c4e465fec4fd2[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Nakano <mitsuhiro.nakano@emc.com>
+Date:   Tue May 26 11:56:45 2020 +0900
+
+    First comment
+
+[33mcommit a85deb3981b932dcaa1aef1f9404bf6efa3c7bec[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Hirahara <kazuo.hirahara@emc.com>
+Date:   Mon May 25 14:41:16 2020 +0900
+
+    modified for latest lab env
+
+[33mcommit fb11f77d228704921d2966e5f167d6bf6f2459c5[m
+Author: Hirahara <kazuo.hirahara@emc.com>
+Date:   Thu May 21 15:54:23 2020 +0900
+
+    modified for latest lab env
+
+[33mcommit 89978915124e1feb55acdde977a24d492c41efe2[m
+Author: Hirahara <kazuo.hirahara@emc.com>
+Date:   Thu May 21 13:08:15 2020 +0900
+
+    modified for latest lab env
+
+[33mcommit 223f8b1d46fcaf0ef894d9c96677bb40d47c159b[m
+Merge: e4c2496 818539f
+Author: Hirahara <kazuo.hirahara@emc.com>
+Date:   Thu May 21 11:09:21 2020 +0900
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit e4c2496daea2eadf47f0faaf07b1a3a99c1aeca9[m
+Author: Hirahara <kazuo.hirahara@emc.com>
+Date:   Thu May 21 11:08:33 2020 +0900
+
+    initial commit
+
+[33mcommit 818539f0dc53762c6fa4b169316b90545cfc836e[m
+Author: hirahk <kazuo.hirahara@emc.com>
+Date:   Thu May 21 11:07:18 2020 +0900
+
+    Initial commit
