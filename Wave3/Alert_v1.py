@@ -11,13 +11,16 @@ import paho.mqtt.client as mqtt
 broker_address = "test.mosquitto.org"     #MQTT broker_address
 Trigger = 16
 Echo = 18
-Topic = "Nakano-MQTT"
+Topic = "Nakano-MQTT2"
 Msg = " "
 Msg2 = " "
 Msg3 = " "
 Msg4 = " "
 Msg5 = " "
 
+temperature_alert = 30.0
+moisture_alert = 190
+distance_alert = 0.40
 
 # publish MQTT
 print("creating new instance")
@@ -37,12 +40,13 @@ client.connect(broker_address) #connect to broker
 #--------------------------------------------------------------
 
 def init():
-	ADC0832.setup()
+    ADC0832.setup()
 
 # Reads temperature from sensor and prints to stdout
 # id is the id of the sensor
 def readSensor(id):
     global Msg
+    global temperature
     tfile = open("/sys/bus/w1/devices/"+id+"/w1_slave")
     text = tfile.read()
     tfile.close()
@@ -50,7 +54,6 @@ def readSensor(id):
     temperaturedata = secondline.split(" ")[9]
     temperature = float(temperaturedata[2:])
     temperature = temperature / 1000
-#   print("Sensor: " + id  + " - Current temperature: %0.3f" % temperature)
     Msg = str("temperature %0.3f" % temperature)
 
 # Reads temperature from all sensors found in /sys/bus/w1/devices/
@@ -86,35 +89,34 @@ GPIO.setup(Echo,GPIO.IN)
 def loop():
     while True:
         readSensors()
+
         res = ADC0832.getResult()
         moisture = 255 - res
-#        Msg2 = str('analog value: %03d moisture: %d' %(res, moisture))
         Msg2 = str('moisture %d' %(moisture))
 
         d = checkdist()
         df = "%0.2f" %d
         Msg3 = str('Distance %s' %df)
 
-        res2 = ADC0832.getResult() - 80
-        if res2 < 0:
-            res2 = 0
-        if res2 > 100:
-            res2 = 100
-#        print ('res2 = %d' % res2)
-        Msg4 = ('Light %d' % res2)
-
-        res3 = ADC0832.getResult()
-        Gas_concentration = res3
-#        print ('analog value: %03d Gas concentration: %d' %(res3, Gas_concentration))
-        Msg5 = str('Gas-concentration %d' %(Gas_concentration))
-#        d_time = datetime.datetime.now()
         d_date = datetime.datetime.now().date()
         d_time = datetime.datetime.now().time()
         d_time2 = d_time.strftime('%H:%M:%S') 
+    
+        if temperature >= temperature_alert:
+            Msg6 = str(d_date) + ' ' + str(d_time2) + ' ' + str(temperature) + " : Be careful! The Temperature exceeds " + str(temperature_alert) + " degrees"
+            print(Msg6)
+            client.publish(Topic,Msg6)
 
-        Msg6 = str(d_date) + ' ' + str(d_time2) + ' ' + Msg + ' ' + Msg2 + ' ' + Msg3 + ' ' + Msg4 + ' ' + Msg5
-        client.publish(Topic,Msg6)
-        time.sleep(3600)
+        if moisture <= moisture_alert:
+            Msg6 = str(d_date) + ' ' + str(d_time2) + ' ' + str(moisture) + " : Need Water! The Ammount of waters is low " + str(moisture_alert)
+            print(Msg6)
+            client.publish(Topic,Msg6)
+
+        if d <= distance_alert:
+            Msg6 = str(d_date) + ' ' + str(d_time2) + ' ' +": Our lady HANA is coming ! Let's enterain her. But it might be Gin !!"
+            print(Msg6)
+            client.publish(Topic,Msg6)
+        time.sleep(10)
 
 # Nothing to cleanup
 def destroy():
